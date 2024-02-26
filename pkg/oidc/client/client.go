@@ -197,7 +197,7 @@ func (c *client) verifyToken(ctx context.Context, token *oauth2.Token, nonce str
 	if !ok {
 		return nil, fmt.Errorf("id_token is missing in the token response: %#v", token)
 	}
-	verifier := c.provider.Verifier(&gooidc.Config{ClientID: c.oauth2Config.ClientID, Now: c.clock.Now})
+	verifier := c.provider.Verifier(&gooidc.Config{ClientID: c.oauth2Config.ClientID, Now: c.clock.Now, SkipIssuerCheck: true})
 	verifiedIDToken, err := verifier.Verify(ctx, idToken)
 	if err != nil {
 		return nil, fmt.Errorf("could not verify the ID token: %w", err)
